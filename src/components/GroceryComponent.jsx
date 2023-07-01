@@ -2,11 +2,14 @@ import React from 'react'
 import { useState, useRef } from "react";
 import { v4 as id } from 'uuid'
 import GroceryItemConponent from './GroceryItemConponent';
+
+
 const GroceryComponent = () => {
     const [item, setItem] = useState('');
     const [groceryItems, setGroceryItems] = useState([]);
     const [error, setError] = useState('');
     const inputRef = useRef()
+
 
     const handleAddItem = () => {
         if (item) {
@@ -27,10 +30,15 @@ const GroceryComponent = () => {
         })
         setGroceryItems(saveItem)
     }
-    const handleDeleteItem = (id) => {
-        const saveItem = groceryItems.filter(item => item.id !== id)
-        console.log(saveItem)
-        setGroceryItems(saveItem)
+    const handleDeleteItem = (id, result) => {
+
+        if (result) {
+
+            const saveItem = groceryItems.filter(item => item.id !== id)
+            console.log(saveItem)
+            setGroceryItems(saveItem)
+        }
+
     }
 
     const handleClearAll = () => {
@@ -63,6 +71,8 @@ const GroceryComponent = () => {
                     <button onClick={handleClearAll} className="btn-clear">Clear Grocery</button>
                 ) : null
             }
+
+
         </div>
     )
 }

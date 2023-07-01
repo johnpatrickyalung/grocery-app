@@ -1,12 +1,13 @@
 import React from 'react'
 import { useState } from "react";
 
+import ModalComponent from './ModalComponent';
 const GroceryItemConponent = ({ item, handleSaveItem, handleDeleteItem }) => {
     const { id, name } = item;
     const [edit, setEdit] = useState(false);
     const [newItem, setNewItem] = useState(name);
     const [error, setError] = useState('');
-
+    const [open, setOpen] = useState(false)
     const onEdit = () => {
         if (newItem) {
             handleSaveItem(id, newItem)
@@ -18,11 +19,20 @@ const GroceryItemConponent = ({ item, handleSaveItem, handleDeleteItem }) => {
         }
 
     }
+    const handleConfirm = (result) => {
+        console.log(open)
+        if (result) {
+            console.log('hello')
+            setOpen(true)
+            handleDeleteItem(id, result)
+        }
+        setOpen(false)
+    }
     const onDelete = () => {
-        handleDeleteItem(id)
+        setOpen(true)
     }
     return (
-        <>
+        <>{open}
             <li>
                 {edit ?
                     <div className="edit-container">
@@ -47,6 +57,12 @@ const GroceryItemConponent = ({ item, handleSaveItem, handleDeleteItem }) => {
                     <button onClick={() => onDelete()} className="btn-delete">Delete</button>
                 </div>
             </li >
+
+            <ModalComponent
+                text={`Delete ${name}?`}
+                open={open}
+                handleConfirm={handleConfirm}
+            />
         </>
     )
 }
